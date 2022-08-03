@@ -21,6 +21,9 @@ app.use((req, res, next) => {
 });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.get("/", (req, res) => {
+	return res.send("<h1>Hello World</h1>");
+});
 
 const chatSockets = (chatServer) => {
 	const io = require("socket.io")(chatServer, {
