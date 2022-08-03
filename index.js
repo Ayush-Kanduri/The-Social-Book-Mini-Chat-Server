@@ -5,12 +5,20 @@ const port = process.env.PORT || 3000;
 const cors = require("cors");
 const chatServer = require("http").Server(app);
 
+app.use((req, res, next) => {
+	res.header("Access-Control-Allow-Origin", "*");
+	next();
+});
 app.use(
 	cors({
 		origin: "*",
 		methods: ["GET", "POST"],
 	})
 );
+app.use((req, res, next) => {
+	res.header("Access-Control-Allow-Origin", "*");
+	next();
+});
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
