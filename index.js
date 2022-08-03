@@ -67,9 +67,10 @@ const chatSockets = (chatServer) => {
 			socket.leave(data.chat_room);
 			io.in(data.chat_room).emit("user_left", data);
 		});
-		socket.on("send_message", async function (data) {
+		socket.on("send_message", async function (Data) {
+			let info = {};
 			try {
-				let info = JSON.stringify(data);
+				info = JSON.stringify(Data);
 				let response = await fetch(`/fetch/${info}`);
 				let data = await response.json();
 				console.log(data);
