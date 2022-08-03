@@ -26,15 +26,15 @@ app.get("/", (req, res) => {
 	return res.send("<h1>The Social Book Chat Server</h1>");
 });
 //Proxy Server
-app.get("/fetch/:info", async (req, res) => {
-	let info = JSON.parse(req.params.info);
-	console.log("Params: ", info);
+app.post("/fetch", async (req, res) => {
+	console.log("Inside Proxy Server");
+	const { info } = req.body;
 	try {
 		let url = "http://localhost:8000/api/v1/chats";
 		let response = fetch(url, {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify(info),
+			body: info,
 		});
 		let Data = await response.json();
 		Data = Data.data.info;
@@ -77,8 +77,12 @@ const chatSockets = (chatServer) => {
 			let info = JSON.stringify(Data) || {};
 			let data = {};
 			try {
-				let url = `https://the-social-book.herokuapp.com/fetch/${info}`;
-				let response = await fetch(url);
+				let url = `https://the-social-book.herokuapp.com/fetch`;
+				let response = await fetch(url, {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: info,
+				});
 				let data = await response.json();
 				console.log("Fetch Call: ", data);
 			} catch (err) {
