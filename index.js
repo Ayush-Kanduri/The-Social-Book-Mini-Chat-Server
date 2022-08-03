@@ -5,24 +5,40 @@ const port = process.env.PORT || 3000;
 const cors = require("cors");
 const chatServer = require("http").Server(app);
 
-app.use((req, res, next) => {
+const allowOrigin = (req, res, next) => {
 	res.header("Access-Control-Allow-Origin", "*");
 	next();
-});
+};
+
+app.use(allowOrigin(req, res, next));
 app.use(
 	cors({
 		origin: "*",
 		methods: ["GET", "POST"],
 	})
 );
-app.use((req, res, next) => {
-	res.header("Access-Control-Allow-Origin", "*");
-	next();
-});
+app.use(allowOrigin(req, res, next));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 app.get("/", (req, res) => {
-	return res.send("<h1>Hello World</h1>");
+	return res.send("<h1>The Social Book Chat Server</h1>");
+});
+//Proxy Server
+app.get("/fetch/:info", async (req, res) => {
+	try {
+		let info = JSON.parse(req.params.info);
+		let url = "http://localhost:8000/api/v1/chats";
+		let response = fetch(url, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(info),
+		});
+		let Data = await response.json();
+		return res.json(Data);
+	} catch (err) {
+		console.log(err);
+	}
 });
 
 const chatSockets = (chatServer) => {
@@ -52,14 +68,11 @@ const chatSockets = (chatServer) => {
 		});
 		socket.on("send_message", async function (data) {
 			try {
-				let url = "http://127.0.0.1:8000/api/v1/chats";
-				let response = await fetch(url, {
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify(data),
-				});
-				let Data = await response.json();
-				let info = Data.data.info;
+				let info = JSON.stringify(data);
+				let response = await fetch(`/fetch/${info}`);
+				let data = await response.json();
+				console.log(data);
+				info = data.data.info;
 			} catch (err) {
 				console.log("Error: ", err);
 			}
