@@ -27,8 +27,9 @@ app.get("/", (req, res) => {
 });
 //Proxy Server
 app.get("/fetch/:info", async (req, res) => {
+	let info = JSON.parse(req.params.info);
+	console.log("Params: ", info);
 	try {
-		let info = JSON.parse(req.params.info);
 		let url = "http://localhost:8000/api/v1/chats";
 		let response = fetch(url, {
 			method: "POST",
