@@ -1,0 +1,22 @@
+{
+	"name": "the-social-book-mini-chat-server",
+	"version": "1.0.0",
+	"description": "tsb mini chat server",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node index.js"
+	},
+	"keywords": [
+		"tsb",
+		"chat",
+		"server"
+	],
+	"author": "ayush kanduri",
+	"license": "ISC",
+	"dependencies": {
+		"cors": "^2.8.5",
+		"express": "^4.18.1",
+		"socket.io": "^4.5.1"
+	}
+}
