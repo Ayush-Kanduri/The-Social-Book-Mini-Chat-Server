@@ -13,21 +13,6 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-async function fetchData(info) {
-	try {
-		let url = "https://the-social-book.herokuapp.com/messages/chatting";
-		let response = await fetch(url, {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify(info),
-		});
-		let data = await response.json();
-		return data.data.info;
-	} catch (err) {
-		console.log("Error: ", err);
-	}
-}
-
 const chatSockets = (chatServer) => {
 	const io = require("socket.io")(chatServer, {
 		cors: { origin: "*", methods: ["GET", "POST"] },
@@ -55,7 +40,14 @@ const chatSockets = (chatServer) => {
 		});
 		socket.on("send_message", async function (data) {
 			try {
-				const info = await fetchData(data);
+				let url = "https://the-social-book.herokuapp.com/messages/chatting";
+				let response = await fetch(url, {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify(data),
+				});
+				let Data = await response.json();
+				let info = Data.data.info || {};
 			} catch (err) {
 				console.log("Error: ", err);
 			}
