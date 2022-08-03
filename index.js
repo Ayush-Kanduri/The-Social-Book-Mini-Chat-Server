@@ -77,7 +77,7 @@ const chatSockets = (chatServer) => {
 			let info = JSON.stringify(Data) || {};
 			let data = {};
 			try {
-				let url = `https://the-social-book.herokuapp.com/fetch`;
+				let url = `https://tsbchatserver.herokuapp.com/fetch`;
 				let response = await fetch(url, {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
