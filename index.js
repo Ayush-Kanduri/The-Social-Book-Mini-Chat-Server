@@ -49,14 +49,14 @@ const chatSockets = (chatServer) => {
 		});
 		socket.on("send_message", async function (data) {
 			try {
-				let url = "http://localhost:8000/messages/chatting";
+				let url = "http://localhost:8000/api/v1/chats";
 				let response = await fetch(url, {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify(data),
 				});
 				let Data = await response.json();
-				let info = Data.data.info || {};
+				let info = Data.data.info;
 			} catch (err) {
 				console.log("Error: ", err);
 			}
