@@ -36,7 +36,9 @@ app.get("/fetch/:info", async (req, res) => {
 			body: JSON.stringify(info),
 		});
 		let Data = await response.json();
-		return res.json(Data);
+		Data = Data.data.info;
+		console.log("Proxy Fetch Call: ", Data);
+		return res.status(200).json(Data);
 	} catch (err) {
 		console.log(err);
 		return res.json({
@@ -71,18 +73,17 @@ const chatSockets = (chatServer) => {
 			io.in(data.chat_room).emit("user_left", data);
 		});
 		socket.on("send_message", async function (Data) {
-			let info = {};
+			let info = JSON.stringify(Data) || {};
+			let data = {};
 			try {
-				info = JSON.stringify(Data);
 				let url = `https://the-social-book.herokuapp.com/fetch/${info}`;
 				let response = await fetch(url);
 				let data = await response.json();
-				console.log(data);
-				info = data.data.info;
+				console.log("Fetch Call: ", data);
 			} catch (err) {
 				console.log("Error: ", err);
 			}
-			io.in(data.chat_room).emit("receive_message", info);
+			io.in(Data.chat_room).emit("receive_message", data);
 		});
 		socket.on("new_message", function (data) {
 			socket.broadcast.emit("new_message_notify", data);
