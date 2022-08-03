@@ -38,7 +38,7 @@ app.get("/fetch/:info", async (req, res) => {
 		let Data = await response.json();
 		Data = Data.data.info;
 		console.log("Proxy Fetch Call: ", Data);
-		return res.status(200).json(Data);
+		return res.status(200).json({ Data });
 	} catch (err) {
 		console.log(err);
 		return res.json({
