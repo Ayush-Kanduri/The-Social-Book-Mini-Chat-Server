@@ -1,6 +1,6 @@
+import fetch from "node-fetch";
 const express = require("express");
 const app = express();
-const fetch = require("node-fetch");
 const port = process.env.PORT || 3000;
 const cors = require("cors");
 const chatServer = require("http").Server(app);
