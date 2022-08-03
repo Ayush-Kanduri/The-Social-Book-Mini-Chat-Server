@@ -30,7 +30,8 @@ app.post("/fetch", async (req, res) => {
 	const { info } = req.body;
 	console.log("Inside Proxy Server: ", info);
 	try {
-		let url = "http://localhost:8000/api/v1/chats";
+		// let url = "http://localhost:8000/api/v1/chats";
+		let url = "https://the-social-book.herokuapp.com/api/v1/chats";
 		let response = await fetch(url, {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
