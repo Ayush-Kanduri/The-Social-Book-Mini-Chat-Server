@@ -29,13 +29,13 @@ app.get("/", (req, res) => {
 app.post("/fetch", async (req, res) => {
 	const { info } = req.body;
 	console.log("Inside Proxy Server: ", info);
+	const information = info || {};
 	try {
-		// let url = "http://localhost:8000/api/v1/chats";
 		let url = "https://the-social-book.herokuapp.com/api/v1/chats";
 		let response = await fetch(url, {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ info }),
+			body: JSON.stringify({ information }),
 		});
 		let Data = await response.json();
 		Data = Data.data.info;
