@@ -49,7 +49,7 @@ const chatSockets = (chatServer) => {
 		});
 		socket.on("send_message", async function (data) {
 			try {
-				let url = "http://localhost:8000/api/v1/chats";
+				let url = "http://127.0.0.1:8000/api/v1/chats";
 				let response = await fetch(url, {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
