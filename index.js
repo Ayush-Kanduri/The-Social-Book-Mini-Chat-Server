@@ -85,13 +85,12 @@ const chatSockets = (chatServer) => {
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify({ info }),
 				});
-				let data = await response.json();
-				data = data.Data;
-				console.log("Final Data: ", data);
+				data = await response.json();
 			} catch (err) {
-				console.log("Error: ", err);
+                console.log("Error: ", err);
 			}
-			io.in(Data.chat_room).emit("receive_message", data);
+            console.log("Final Data: ", data.Data);
+			await io.in(Data.chat_room).emit("receive_message", data.Data);
 		});
 		socket.on("new_message", function (data) {
 			socket.broadcast.emit("new_message_notify", data);
