@@ -39,6 +39,9 @@ app.get("/fetch/:info", async (req, res) => {
 		return res.json(Data);
 	} catch (err) {
 		console.log(err);
+		return res.json({
+			error: err,
+		});
 	}
 });
 
