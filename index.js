@@ -27,11 +27,11 @@ app.get("/", (req, res) => {
 });
 //Proxy Server
 app.post("/fetch", async (req, res) => {
-	console.log("Inside Proxy Server");
 	const { info } = req.body;
+	console.log("Inside Proxy Server: ", info);
 	try {
 		let url = "http://localhost:8000/api/v1/chats";
-		let response = fetch(url, {
+		let response = await fetch(url, {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: info,
