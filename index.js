@@ -28,7 +28,6 @@ app.get("/", (req, res) => {
 //Proxy Server
 app.post("/fetch", async (req, res) => {
 	const { info } = req.body;
-	console.log("Inside Proxy Server: ", info);
 	const information = info || {};
 	try {
 		let url = "https://the-social-book.herokuapp.com/api/v1/chats";
@@ -39,7 +38,6 @@ app.post("/fetch", async (req, res) => {
 		});
 		let Data = await response.json();
 		Data = Data.data.info;
-		console.log("Proxy Fetch Call: ", Data);
 		return res.status(200).json({ Data });
 	} catch (err) {
 		console.log(err);
@@ -77,7 +75,6 @@ const chatSockets = (chatServer) => {
 		socket.on("send_message", async function (Data) {
 			let info = Data || {};
 			let data = {};
-			console.log("PRE - Data: ", info);
 			try {
 				let url = "https://tsbchatserver.herokuapp.com/fetch";
 				let response = await fetch(url, {
@@ -87,9 +84,8 @@ const chatSockets = (chatServer) => {
 				});
 				data = await response.json();
 			} catch (err) {
-                console.log("Error: ", err);
+				console.log("Error: ", err);
 			}
-            console.log("Final Data: ", data.Data);
 			await io.in(Data.chat_room).emit("receive_message", data.Data);
 		});
 		socket.on("new_message", function (data) {
