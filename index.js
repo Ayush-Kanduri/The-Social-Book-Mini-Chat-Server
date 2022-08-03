@@ -4,7 +4,12 @@ const port = process.env.PORT || 3000;
 const cors = require("cors");
 const chatServer = require("http").Server(app);
 
-app.use(cors());
+app.use(
+	cors({
+		origin: "*",
+		methods: ["GET", "POST"],
+	})
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -24,7 +29,9 @@ async function fetchData(info) {
 }
 
 const chatSockets = (chatServer) => {
-	const io = require("socket.io")(chatServer, { cors: { origin: "*" } });
+	const io = require("socket.io")(chatServer, {
+		cors: { origin: "*", methods: ["GET", "POST"] },
+	});
 	let users = {};
 	console.log("New Socket Connection");
 
