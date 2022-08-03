@@ -87,6 +87,7 @@ const chatSockets = (chatServer) => {
 				});
 				let data = await response.json();
 				data = data.Data;
+				console.log("Final Data: ", data);
 			} catch (err) {
 				console.log("Error: ", err);
 			}
