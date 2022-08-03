@@ -42,7 +42,7 @@ const chatSockets = (chatServer) => {
 		socket.on("join_room", function (data) {
 			socket.join(data.chat_room);
 			io.in(data.chat_room).emit("user_joined", data);
-		});
+		}); 
 		socket.on("leave_room", function (data) {
 			socket.leave(data.chat_room);
 			io.in(data.chat_room).emit("user_left", data);
