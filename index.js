@@ -49,7 +49,7 @@ const chatSockets = (chatServer) => {
 		});
 		socket.on("send_message", async function (data) {
 			try {
-				let url = "https://the-social-book.herokuapp.com/messages/chatting";
+				let url = "http://localhost:8000/messages/chatting";
 				let response = await fetch(url, {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
