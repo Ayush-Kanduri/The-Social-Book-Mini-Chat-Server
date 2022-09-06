@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
 const cors = require("cors");
+const env = require("./environment");
 const chatServer = require("http").Server(app);
 
 app.use((req, res, next) => {
@@ -23,14 +24,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-	return res.send("<h1>The Social Book Chat Server</h1>");
+	return res.status(200).send("<h1>The Social Book Chat Server</h1>");
 });
 //Proxy Server
 app.post("/fetch", async (req, res) => {
 	const { info } = req.body;
 	const information = info || {};
 	try {
-		let url = "https://the-social-book.herokuapp.com/api/v1/chats";
+		let url = `${env.main_website}/api/v1/chats`;
 		let response = await fetch(url, {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
@@ -76,8 +77,7 @@ const chatSockets = (chatServer) => {
 			let info = Data || {};
 			let data = {};
 			try {
-				let url = "https://tsbchatserver.herokuapp.com/fetch";
-				let response = await fetch(url, {
+				let response = await fetch("/fetch", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify({ info }),
